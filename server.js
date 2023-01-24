@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
-// const db = require('./database')
+const db = require('./database')
+const path = require('path')
 
 // 1
 const multer = require('multer')
@@ -10,10 +11,11 @@ const app = express()
 const upload = multer({ dest: 'images/' })
 
 app.use(express.static("build"));
+app.use("/images",express.static("./images"));
 // 3
 
 app.get('/api/images', async (req, res)=> {
-  console.log("getting images...")
+//   console.log("getting images...")
   const result = await db.getImages()
   res.send(result)
 })
@@ -41,10 +43,8 @@ app.get('/images/:imageName', (req, res) => {
   readStream.pipe(res)
 })
 
-app.get('*', (req, res) => {
-    //  res.sendFile('dist/index.html');
-      res.sendFile('build/index.html', { root: '.' });
-    
-    });
-
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./build/index.html"))
+  })
+  
 app.listen(8080, () => console.log("listening on port 8080"))
