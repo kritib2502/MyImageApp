@@ -9,6 +9,8 @@ const pool = mysql
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT || 3306,
+    url: process.env.MSQL_URL
   })
   .promise()
 
